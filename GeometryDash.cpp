@@ -19,7 +19,7 @@ void GeometryDash::Start()
 {
     Super::Start();
 
-    Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(463.0f, 260.0f) * 2.0f, "background", JPG)));
+    //Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(463.0f, 260.0f) * 2.0f, "background", JPG)));
 
     const Vector2f& _floorSize = Vector2f(window.getSize().x, window.getSize().y * 0.2f);
     MeshActor* floor = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
@@ -32,7 +32,7 @@ void GeometryDash::Start()
 
     player = Level::SpawnActor(Player(50.0f));
     player->SetOriginAtMiddle();
-    player->SetPosition(Vector2f(window.getSize().x * 0.5f, window.getSize().y * 0.2f));
+    player->SetPosition(Vector2f(window.getSize().x * 0.5f, window.getSize().y * 0.5f));
 
     const Vector2f& _wallSize = Vector2f(window.getSize().x * 0.2f, window.getSize().y);
     MeshActor* wall = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize)));
@@ -41,9 +41,13 @@ void GeometryDash::Start()
     MeshActor* wall2 = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize)));
     wall2->SetPosition(Vector2f(0.0f, 0.0f));
 
+    MeshActor* wall3 = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize)));
+    wall3->SetPosition(Vector2f(0.0f, 0.0f));
+
     collidable.push_back(floor);
     collidable.push_back(wall);
     collidable.push_back(wall2);
+    collidable.push_back(wall3);
 }
 
 bool GeometryDash::Update()
@@ -61,7 +65,8 @@ bool GeometryDash::Update()
 
         if (const optional<FloatRect> _intersection = _playerRect.findIntersection(_objectRect))
         {
-            player->OnCollision(_intersection);
+            const Vector2f _normal = player->GetNormal(_playerRect, _objectRect, _intersection);
+            player->OnCollision(_normal);
         }
     }
 

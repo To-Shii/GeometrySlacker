@@ -23,7 +23,8 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(const float _deltaTime) override;
-	void OnCollision(const optional<FloatRect>& _intersection);
-	Vector2f GetNormal(const optional<FloatRect>& _intersection);
+
+	void OnCollision(const Vector2f& _normal);
+	Vector2f GetNormal(const FloatRect& _playerRect, const FloatRect& _objectRect, const optional<FloatRect> _intersection);
 };
 
