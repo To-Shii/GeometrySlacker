@@ -5,10 +5,16 @@ class MovementComponent : public Component
 { 
 	float speed;
 	float rotateSpeed;
-	Vector2f direction;
+
+	// A Remove
 	Actor* target;
 
 public:
+	FORCEINLINE float GetSpeed() const
+	{
+		return speed;
+	}
+
 	FORCEINLINE void SetRotateSpeed(const float _rotateSpeed)
 	{
 		rotateSpeed = _rotateSpeed;
@@ -17,6 +23,11 @@ public:
 	{
 		target = _target;
 	}
+	FORCEINLINE void SetSpeed(const float _speed)
+	{
+		speed = _speed;
+	}
+
 	
 public:
 	MovementComponent(Actor* _owner);
@@ -25,7 +36,9 @@ public:
 protected:
 	virtual void Tick(const float _deltaTime) override;
 
-private:
-	void Move(const float _deltaTime);
+public:
+	void Move(const Vector2f& _direction, const float _deltaTime);
+
+	// A Remove
 	void RotateAround(const float _deltaTime);
 };

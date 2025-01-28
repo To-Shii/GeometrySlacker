@@ -21,4 +21,26 @@ enum LayerType
 class CollisionComponent : public Component
 {
 	LayerType layer;
+	CollisionType type;
+
+public:
+	FORCEINLINE CollisionType GetCollisionType() const
+	{
+		return type;
+	}
+	FORCEINLINE void SetCollisionType(CollisionType _type)
+	{
+		type = _type;
+	}
+
+public:
+	CollisionComponent(Actor* _owner);
+
+	virtual void Tick(const float _deltaTime) override;
+
+
+public:
+	void OnCollide(const Vector2f& _normal, Vector2f& _velocity);
+
+
 };

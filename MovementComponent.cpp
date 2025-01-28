@@ -3,16 +3,16 @@
 
 MovementComponent::MovementComponent(Actor* _owner) : Component(_owner)
 {
-	speed = 100.0f;
+	speed = 1.0f;
 	rotateSpeed = 30.0f;
-	direction = Vector2f(1.0f, 0.0f);
+	target = nullptr;
 }
 
 MovementComponent::MovementComponent(Actor* _owner, const MovementComponent* _other) : Component(_owner)
 {
 	speed = _other->speed;
 	rotateSpeed = _other->rotateSpeed;
-	direction = _other->direction;
+	target = _other->target;
 }
 
 
@@ -20,17 +20,16 @@ void MovementComponent::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
-	//Move(_deltaTime);
-	RotateAround(_deltaTime);
 }
 
 
-void MovementComponent::Move(const float _deltaTime)
+void MovementComponent::Move(const Vector2f& _direction, const float _deltaTime)
 {
-	const Vector2f& _offset = direction * speed * _deltaTime;
+	const Vector2f& _offset = _direction * speed * _deltaTime ;
 	owner->Move(_offset);
 }
 
+// A Remove
 void MovementComponent::RotateAround(const float _deltaTime)
 {
 	if (!target) return;

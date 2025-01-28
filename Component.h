@@ -1,10 +1,12 @@
 #pragma once
 #include "Core.h"
 
+class Actor;
+
 class Component : public Core
 {
 protected:
-	class Actor* owner;
+	Actor* owner;
 
 public:
 	FORCEINLINE Actor* GetOwner() const

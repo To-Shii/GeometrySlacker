@@ -2,20 +2,20 @@
 #include "Game.h"
 #include "MeshActor.h"
 #include "MusicSample.h"
-#include "Duck.h"
-#include "Ball.h"
+#include "Player.h"
 
-class DuckHuntGame : public Game
+class GeometryDash : public Game
 {
 	MeshActor* background;
 	MusicSample* music;
 
-	// Ball
-	Ball* ball;
-	MeshActor* floor;
+
+	Player* player;
+
+	vector<MeshActor*> collidable;
 
 public:
-	DuckHuntGame();
+	GeometryDash();
 
 public:
 	virtual void Start() override;

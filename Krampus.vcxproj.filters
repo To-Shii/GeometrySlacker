@@ -118,6 +118,18 @@
     <Filter Include="Scripts\Managers\InputManager">
       <UniqueIdentifier>{dab1ea7e-4012-484b-a56e-f67037f873e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GeometryDash">
+      <UniqueIdentifier>{858b5bd4-1faa-432b-9fc2-42db744d0d93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Core\Components\Movement">
+      <UniqueIdentifier>{089af8a8-b2bb-46b0-83bb-6847fa8cbf76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeometryDash\Main Game">
+      <UniqueIdentifier>{3dc932e1-3c65-413e-ac5d-60e4c62d481a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeometryDash\Player">
+      <UniqueIdentifier>{10b5bb49-b93e-49ea-9987-d074fb2e513e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TextObject.cpp">
@@ -195,16 +207,7 @@
     <ClCompile Include="MusicSample.cpp">
       <Filter>Scripts\Managers\Audio\Samples\Music</Filter>
     </ClCompile>
-    <ClCompile Include="MovementComponent.cpp">
-      <Filter>DuckHunt</Filter>
-    </ClCompile>
     <ClCompile Include="Level.cpp">
-      <Filter>DuckHunt</Filter>
-    </ClCompile>
-    <ClCompile Include="Duck.cpp">
-      <Filter>DuckHunt</Filter>
-    </ClCompile>
-    <ClCompile Include="DuckHuntGame.cpp">
       <Filter>DuckHunt</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
@@ -237,14 +240,17 @@
     <ClCompile Include="CameraActor.cpp">
       <Filter>Scripts\Core\Actors\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Ball.cpp">
-      <Filter>DuckHunt</Filter>
-    </ClCompile>
-    <ClCompile Include="Bird.cpp">
-      <Filter>DuckHunt</Filter>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Scripts\Core\Components\Movement</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Scripts\Managers\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryDash.cpp">
+      <Filter>GeometryDash\Main Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GeometryDash\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,15 +338,6 @@
     <ClInclude Include="MusicSample.h">
       <Filter>Scripts\Managers\Audio\Samples\Music</Filter>
     </ClInclude>
-    <ClInclude Include="Duck.h">
-      <Filter>DuckHunt</Filter>
-    </ClInclude>
-    <ClInclude Include="DuckHuntGame.h">
-      <Filter>DuckHunt</Filter>
-    </ClInclude>
-    <ClInclude Include="MovementComponent.h">
-      <Filter>DuckHunt</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Scripts\Core\Components\Animation</Filter>
     </ClInclude>
@@ -386,14 +383,17 @@
     <ClInclude Include="CameraActor.h">
       <Filter>Scripts\Core\Actors\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Ball.h">
-      <Filter>DuckHunt</Filter>
-    </ClInclude>
-    <ClInclude Include="Bird.h">
-      <Filter>DuckHunt</Filter>
+    <ClInclude Include="MovementComponent.h">
+      <Filter>Scripts\Core\Components\Movement</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Scripts\Managers\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryDash.h">
+      <Filter>GeometryDash\Main Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GeometryDash\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
