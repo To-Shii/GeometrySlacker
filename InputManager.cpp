@@ -19,7 +19,7 @@ void  MyInput::InputManager::ConsumeData(RenderWindow& _window)
     }
 }
 
-void MyInput::InputManager::BindAction(const vector<Code>& _codes, const function<void()>& _callback)
+void MyInput::InputManager::BindAction(const set<Code>& _codes, const function<void()>& _callback)
 {
     inputData.push_back(InputData(_callback, _codes, _codes.empty()));
 }

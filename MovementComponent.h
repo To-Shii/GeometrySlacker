@@ -3,32 +3,28 @@
 
 class MovementComponent : public Component
 { 
-	float speed;
-	float rotateSpeed;
+	bool canMove;
+	bool isGrounded;
 
-	// A Remove
-	Actor* target;
+	Vector2f velocity;
+	float mass;
+	float speed;
+	float gravity;
+
 
 public:
-	FORCEINLINE float GetSpeed() const
+	FORCEINLINE Vector2f& GetVelocity()
 	{
-		return speed;
+		return velocity;
 	}
-
-	FORCEINLINE void SetRotateSpeed(const float _rotateSpeed)
+	FORCEINLINE void SetIsGrounded(const bool _isGrounded = true)
 	{
-		rotateSpeed = _rotateSpeed;
+		isGrounded = _isGrounded;
 	}
-	FORCEINLINE void SetTarget(Actor* _target)
+	FORCEINLINE bool IsGrounded() const
 	{
-		target = _target;
+		return isGrounded;
 	}
-	FORCEINLINE void SetSpeed(const float _speed)
-	{
-		speed = _speed;
-	}
-
-	
 public:
 	MovementComponent(Actor* _owner);
 	MovementComponent(Actor* _owner, const MovementComponent* _other);
@@ -38,7 +34,4 @@ protected:
 
 public:
 	void Move(const Vector2f& _direction, const float _deltaTime);
-
-	// A Remove
-	void RotateAround(const float _deltaTime);
 };

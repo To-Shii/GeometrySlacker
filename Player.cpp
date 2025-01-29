@@ -1,30 +1,35 @@
 #include "Player.h"
 #include "TimerManager.h"
+#include "InputManager.h"
+
+#define JUMP_HIGH 400
 
 Player::Player(const float _size, const string& _path) : MeshActor(RectangleShapeData({ _size,_size }, _path))
 {
-    canMove = true;
     startPosition = Vector2f();
-    velocity = Vector2f(100.0f,0.0f);
-    mass = 80.0f;
-    gravity = 9.81f;
-    restitution = 0.85f;
+    movementComponent = CreateComponent<MovementComponent>();
+    collisionComponent = CreateComponent<CollisionComponent>();
+}
 
-    isGrounded = false;
+Player::Player(const Player& _other) : MeshActor(_other)
+{
+    startPosition = _other.startPosition;
+    collisionComponent = CreateComponent<CollisionComponent>(_other.collisionComponent);
+    movementComponent = CreateComponent<MovementComponent>(_other.movementComponent);
+}
+
+void Player::Construct()
+{
+    Super::Construct();
 
     SetOriginAtMiddle();
+    collisionComponent->SetCollisionType(CollisionType::CT_BLOCK);
+    M_INPUT.BindAction({ Code::Space,Code::Up }, bind(&Player::Jump, this));
 }
 
 void Player::BeginPlay()
 {
     Super::BeginPlay();
-
-    collisionComponent = new CollisionComponent(this);
-    collisionComponent->SetCollisionType(CollisionType::CT_BLOCK);
-    AddComponent(collisionComponent);
-
-    movementComponent = new MovementComponent(this);
-    AddComponent(movementComponent);
 
     startPosition = GetPosition();
 }
@@ -33,66 +38,24 @@ void Player::Tick(const float _deltaTime)
 {
     Super::Tick(_deltaTime);
 
-    if (!canMove) return;
-
-    // Appliquer la gravité
-    if (!isGrounded)
-    {
-        velocity.y += gravity * mass * _deltaTime;
-    }
-
-    // Mettre à jour la position
-    movementComponent->Move(velocity, _deltaTime);
+   
 }
 
 void Player::OnCollision(const Vector2f& _normal)
 {
-    
-    Move(_normal * 0.1f);
+    Move(-_normal * 0.1f);
 
-    GetComponent<CollisionComponent>()->OnCollide(_normal, velocity);
-    isGrounded = true;
-    //cout << _normal.x << "  :  " << _normal.y << endl;
+    collisionComponent->OnCollide(_normal, movementComponent->GetVelocity());
+    movementComponent->SetIsGrounded();
 }
 
-Vector2f Player::GetNormal(const FloatRect& _playerRect, const FloatRect& _objectRect, const optional<FloatRect> _intersection)
+
+
+void Player::Jump()
 {
-
-    Vector2f _collisionNormal;
-
-    if (_intersection.value().size.x > 0.5f)
-    {
-        if (_objectRect.position.y - (_playerRect.position.y + _playerRect.size.y) <= 0.1f &&
-            _objectRect.position.y - (_playerRect.position.y + _playerRect.size.y) >= -0.1f)
-        {
-            // normal vers le haut
-        }
-        else
-        {
-            // normal vers le bas
-        }
-    }
-
-    if (_intersection.value().size.y > 0.5f)
-    {
-        if (_objectRect.position.x - (_playerRect.position.x + _playerRect.size.x) <= 0.1f &&
-            _objectRect.position.x - (_playerRect.position.x + _playerRect.size.x) >= -0.1f)
-        {
-            // normal vers la droite
-        }
-        else
-        {
-            // normal vers la gauche
-        }
-    }
-    
-
-
-
-
-    //const float _norme = sqrtf(pow(_collisionNormal.x, 2) + pow(_collisionNormal.y, 2));*/
-
-    //return _collisionNormal / _norme;
-
-    return _collisionNormal;
+    if (!movementComponent->IsGrounded()) return;
+     movementComponent->SetIsGrounded(false);
+     Rotate(degrees(90));
+    Vector2f& _velocity = movementComponent->GetVelocity();
+    _velocity.y -= JUMP_HIGH;
 }

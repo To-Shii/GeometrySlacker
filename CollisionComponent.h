@@ -35,6 +35,7 @@ public:
 
 public:
 	CollisionComponent(Actor* _owner);
+	CollisionComponent(Actor* _owner, const CollisionComponent* _other);
 
 	virtual void Tick(const float _deltaTime) override;
 

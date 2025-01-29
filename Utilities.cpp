@@ -49,3 +49,13 @@ float EaseInQuart(const float _time)
 {
     return _time * _time * _time * _time;
 }
+Vector2f ComputeNormal(const FloatRect& _rect)
+{
+    const Vector2f& _normal = Vector2f(-_rect.size.y, _rect.size.x);
+    const float _norme = Length(_normal);
+    return _normal / _norme;
+}
+float Length(const Vector2f& _vector)
+{
+    return sqrtf(powf(_vector.x, 2.0f) + powf(_vector.y, 2.0f));
+}

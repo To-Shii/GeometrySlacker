@@ -29,9 +29,7 @@ void GeometryDash::Start()
     floor->SetTextureRect(IntRect(Vector2i(), Vector2i(512 * 3, 512)));
 
     
-
-    player = Level::SpawnActor(Player(50.0f));
-    player->SetOriginAtMiddle();
+    player = Level::SpawnActor(Player(50.0f, "block"));
     player->SetPosition(Vector2f(window.getSize().x * 0.5f, window.getSize().y * 0.5f));
 
     const Vector2f& _wallSize = Vector2f(window.getSize().x * 0.2f, window.getSize().y);
@@ -65,7 +63,7 @@ bool GeometryDash::Update()
 
         if (const optional<FloatRect> _intersection = _playerRect.findIntersection(_objectRect))
         {
-            const Vector2f _normal = player->GetNormal(_playerRect, _objectRect, _intersection);
+            const Vector2f& _normal = ComputeNormal(*_intersection);
             player->OnCollision(_normal);
         }
     }
