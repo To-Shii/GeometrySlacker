@@ -28,7 +28,7 @@ public:
 	{
 		return type;
 	}
-	FORCEINLINE void SetCollisionType(CollisionType _type)
+	FORCEINLINE void SetCollisionType(const CollisionType& _type)
 	{
 		type = _type;
 	}

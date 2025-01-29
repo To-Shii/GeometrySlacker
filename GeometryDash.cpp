@@ -21,6 +21,9 @@ void GeometryDash::Start()
 
     //Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(463.0f, 260.0f) * 2.0f, "background", JPG)));
 
+    music = M_AUDIO.PlaySample<MusicSample>("StereoMadness");
+    music->SetLoop(true);
+    music->SetVolume(5.0f);
     const Vector2f& _floorSize = Vector2f(window.getSize().x, window.getSize().y * 0.2f);
     MeshActor* floor = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
     const float _posX = 0.0f;

@@ -25,6 +25,7 @@ public:
 	{
 		return isGrounded;
 	}
+
 public:
 	MovementComponent(Actor* _owner);
 	MovementComponent(Actor* _owner, const MovementComponent* _other);

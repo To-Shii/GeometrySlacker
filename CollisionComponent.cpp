@@ -23,5 +23,9 @@ void CollisionComponent::Tick(const float _deltaTime)
 
 void CollisionComponent::OnCollide(const Vector2f& _normal, Vector2f& _velocity)
 {
-	_velocity.y = 0.0f;
+	if (type == CT_NONE) return;
+	if (type == CT_BLOCK)
+	{
+		_velocity.y -= _velocity.y;
+	}
 }

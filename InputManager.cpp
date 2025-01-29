@@ -13,7 +13,7 @@ void  MyInput::InputManager::ConsumeData(RenderWindow& _window)
         {
             for (InputData& _inputData : inputData)
             {
-                if (_inputData.TryToExcute(_key)) break;
+                if (_inputData.TryToExcute(_key)) break; //change if you want 2 callback on 1 touch
             }
         }
     }

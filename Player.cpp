@@ -6,6 +6,7 @@
 
 Player::Player(const float _size, const string& _path) : MeshActor(RectangleShapeData({ _size,_size }, _path))
 {
+    SetName("Player");
     startPosition = Vector2f();
     movementComponent = CreateComponent<MovementComponent>();
     collisionComponent = CreateComponent<CollisionComponent>();
