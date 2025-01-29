@@ -66,11 +66,13 @@ Vector2f Player::GetNormal(const FloatRect& _playerRect, const FloatRect& _objec
             _objectRect.position.y - (_playerRect.position.y + _playerRect.size.y) >= -0.1f)
         {
             // normal vers le haut
+            velocity.y = 0.0f;
         }
         else
         {
             // normal vers le bas
         }
+
     }
 
     if (_intersection.value().size.y > 0.5f)
@@ -79,20 +81,13 @@ Vector2f Player::GetNormal(const FloatRect& _playerRect, const FloatRect& _objec
             _objectRect.position.x - (_playerRect.position.x + _playerRect.size.x) >= -0.1f)
         {
             // normal vers la droite
+            velocity.x = 0.0f;
         }
         else
         {
             // normal vers la gauche
+
         }
     }
-    
-
-
-
-
-    //const float _norme = sqrtf(pow(_collisionNormal.x, 2) + pow(_collisionNormal.y, 2));*/
-
-    //return _collisionNormal / _norme;
-
     return _collisionNormal;
 }
