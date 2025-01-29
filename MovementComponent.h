@@ -33,5 +33,5 @@ protected:
 	virtual void Tick(const float _deltaTime) override;
 
 public:
-	void Move(const Vector2f& _direction, const float _deltaTime);
+	void Move(const float _deltaTime);
 };

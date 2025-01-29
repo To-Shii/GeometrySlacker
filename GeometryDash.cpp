@@ -29,7 +29,7 @@ void GeometryDash::Start()
     floor->SetTextureRect(IntRect(Vector2i(), Vector2i(512 * 3, 512)));
 
     
-    player = Level::SpawnActor(Player(50.0f, "block"));
+    player = Level::SpawnActor(Player(50.0f, "character"));
     player->SetPosition(Vector2f(window.getSize().x * 0.5f, window.getSize().y * 0.5f));
 
     const Vector2f& _wallSize = Vector2f(window.getSize().x * 0.2f, window.getSize().y);
