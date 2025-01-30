@@ -11,7 +11,8 @@ class GeometryDash : public Game
 
 	Player* player;
 
-	vector<MeshActor*> collidable;
+	vector<MeshActor*> collidables;
+	vector<MeshActor*> DeadlyObstacles;
 
 public:
 	GeometryDash();
