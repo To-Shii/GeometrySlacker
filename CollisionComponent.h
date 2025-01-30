@@ -28,13 +28,14 @@ public:
 	{
 		return type;
 	}
-	FORCEINLINE void SetCollisionType(CollisionType _type)
+	FORCEINLINE void SetCollisionType(const CollisionType& _type)
 	{
 		type = _type;
 	}
 
 public:
 	CollisionComponent(Actor* _owner);
+	CollisionComponent(Actor* _owner, const CollisionComponent* _other);
 
 	virtual void Tick(const float _deltaTime) override;
 

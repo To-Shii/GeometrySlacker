@@ -11,7 +11,6 @@ int GetRandomNumberInRange(const int _min, const int _max)
     random_device _rSeed; // Obtient un graine aléatoire
     mt19937 _gen(_rSeed()); // Initialise le générateur avec la graine
     uniform_int_distribution<> _distr(_min, _max); // Définit la distribution (les limites)
-
     return _distr(_gen); // Génération du nombre
 }
 
@@ -48,4 +47,14 @@ float EaseOutQuart(const float _time)
 float EaseInQuart(const float _time)
 {
     return _time * _time * _time * _time;
+}
+Vector2f ComputeNormal(const FloatRect& _rect)
+{
+    const Vector2f& _normal = Vector2f(-_rect.size.y, _rect.size.x);
+    const float _norme = Length(_normal);
+    return _normal / _norme;
+}
+float Length(const Vector2f& _vector)
+{
+    return sqrtf(powf(_vector.x, 2.0f) + powf(_vector.y, 2.0f));
 }

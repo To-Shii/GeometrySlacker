@@ -21,7 +21,36 @@ void GeometryDash::Start()
 
     //Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(463.0f, 260.0f) * 2.0f, "background", JPG)));
 
-    MeshActor* _bg = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(window.getSize().x, window.getSize().y), "Background", PNG, true)));
+    music = M_AUDIO.PlaySample<MusicSample>("StereoMadness");
+    music->SetLoop(true);
+    music->SetVolume(5.0f);
+    const Vector2f& _floorSize = Vector2f(window.getSize().x, window.getSize().y * 0.2f);
+    MeshActor* floor = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
+    const float _posX = 0.0f;
+    const float _posY = window.getSize().y * 0.8f;
+    floor->SetPosition(Vector2f(_posX, _posY));
+    floor->SetTextureRect(IntRect(Vector2i(), Vector2i(512 * 3, 512)));
+
+    
+    player = Level::SpawnActor(Player(50.0f, "character"));
+    player->SetPosition(Vector2f(window.getSize().x * 0.5f, window.getSize().y * 0.5f));
+
+    const Vector2f& _wallSize = Vector2f(window.getSize().x * 0.2f, window.getSize().y);
+    MeshActor* wall = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize)));
+    wall->SetPosition(Vector2f(window.getSize().x * 0.8f, 0.0f));
+
+    MeshActor* wall2 = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize)));
+    wall2->SetPosition(Vector2f(0.0f, 0.0f));
+
+    MeshActor* wall3 = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize)));
+    wall3->SetPosition(Vector2f(0.0f, 0.0f));
+
+    collidable.push_back(floor);
+    collidable.push_back(wall);
+    collidable.push_back(wall2);
+    collidable.push_back(wall3);
+
+    /*MeshActor* _bg = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(window.getSize().x, window.getSize().y), "Background", PNG, true)));
     
     const Vector2f& _floorSize = Vector2f(window.getSize().x, window.getSize().y * 0.2f);
     MeshActor* _floor = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
@@ -50,8 +79,7 @@ void GeometryDash::Start()
     collidable.push_back(_floor);
     collidable.push_back(_wall);
     collidable.push_back(_wall2);
-    collidable.push_back(_wall3);
-
+    collidable.push_back(_wall3);*/
 }
 
 bool GeometryDash::Update()
@@ -69,7 +97,7 @@ bool GeometryDash::Update()
 
         if (const optional<FloatRect> _intersection = _playerRect.findIntersection(_objectRect))
         {
-            const Vector2f _normal = player->GetNormal(_playerRect, _objectRect, _intersection);
+            const Vector2f& _normal = ComputeNormal(*_intersection);
             player->OnCollision(_normal);
         }
     }
