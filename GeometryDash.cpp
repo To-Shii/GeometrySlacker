@@ -159,16 +159,16 @@ void GeometryDash::GenerateAllSpike(const float _floor)
     GenerateSpike(Vector2f(950.0f, _floor + 8.0f));
     GenerateSpike(Vector2f(1300.0f, _floor + 8.0f));
 
-    GenerateSpike(Vector2f(3350.0f, _floor + 8.0f - 440.0f));
-    GenerateSpike(Vector2f(3400.0f, _floor + 8.0f - 440.0f));
-    GenerateSpike(Vector2f(3450.0f, _floor + 8.0f - 440.0f));
+    GenerateSpike(Vector2f(3350.0f, _floor - 410.0f));
+    GenerateSpike(Vector2f(3400.0f, _floor - 410.0f));
+    GenerateSpike(Vector2f(3450.0f, _floor - 410.0f));
 }
 
 void GeometryDash::GenerateAllLowSpike(const float _floor)
 {
     GenerateLowSpike(Vector2f(900.0f, _floor + 8.0f));
-    GenerateLowSpike(Vector2f(3300.0f, _floor + 8.0f - 430.0f));
-    GenerateLowSpike(Vector2f(3500.0f, _floor + 8.0f - 430.0f));
+    GenerateLowSpike(Vector2f(3300.0f, _floor - 418.0f));
+    GenerateLowSpike(Vector2f(3500.0f, _floor - 418.0f));
 }
 
 void GeometryDash::GenerateAllLongSpike(const float _floor)
