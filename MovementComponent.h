@@ -25,6 +25,10 @@ public:
 	{
 		return isGrounded;
 	}
+	FORCEINLINE void SetCanMove(const bool _canMove)
+	{
+		canMove = _canMove;
+	}
 
 public:
 	MovementComponent(Actor* _owner);

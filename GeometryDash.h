@@ -8,10 +8,10 @@ class GeometryDash : public Game
 {
 	MeshActor* background;
 	MusicSample* music;
-
 	Player* player;
 
 	vector<MeshActor*> collidable;
+	vector<MeshActor*> DeadlyObstacles;
 
 public:
 	GeometryDash();
