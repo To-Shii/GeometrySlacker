@@ -5,7 +5,7 @@
 
 #define JUMP_HIGH 500
 
-Player::Player(const float _size, const string& _path) : MeshActor(RectangleShapeData({ _size,_size }, _path))
+Player::Player(const float _size, const string& _path) : MeshActor(RectangleShapeData({ _size, _size }, _path))
 {
     size = _size;
     SetName("Player");
@@ -31,6 +31,8 @@ void Player::Construct()
     SetOriginAtMiddle();
     collisionComponent->SetCollisionType(CollisionType::CT_BLOCK);
     M_INPUT.BindAction({ Code::Space,Code::Up }, bind(&Player::Jump, this));
+    SetOriginAtMiddle();
+    SetPosition(Vector2f(0.0f, 864.0f - 50.0f));
 }
 
 void Player::BeginPlay()

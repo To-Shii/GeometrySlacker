@@ -5,9 +5,9 @@ MovementComponent::MovementComponent(Actor* _owner) : Component(_owner)
 {
 	isGrounded = false;
 	canMove = true;
-	velocity = Vector2f(100.0f, 0.0f);
+	velocity = Vector2f(300.0f, 0.0f);
 	speed = 1.0f;
-	mass = 80.0f;
+	mass = 100.0f;
 	gravity = 9.81f;
 }
 
