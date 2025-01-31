@@ -5,23 +5,30 @@
 
 #define JUMP_HIGH 500
 
-Player::Player(const float _size, const string& _path) : MeshActor(RectangleShapeData({ _size, _size }, _path))
+Player::Player(const float _size, const string& _path) : MeshActor(RectangleShapeData({ _size,_size }, _path))
 {
     size = _size;
     SetName("Player");
     startPosition = Vector2f();
     movementComponent = CreateComponent<MovementComponent>();
     collisionComponent = CreateComponent<CollisionComponent>();
-    deathAnimation = CreateComponent<AnimationComponent>();
-
     canJump = true;
+    targetRotation = 0;
+    rotationTimer = nullptr;
+    SetupAnimation();
+
 }
 
 Player::Player(const Player& _other) : MeshActor(_other)
 {
     startPosition = _other.startPosition;
     collisionComponent = CreateComponent<CollisionComponent>(_other.collisionComponent);
+    targetRotation = _other.targetRotation;
     movementComponent = CreateComponent<MovementComponent>(_other.movementComponent);
+    rotationTimer = nullptr;
+
+    SetupAnimation();
+
 }
 
 void Player::Construct()
@@ -31,8 +38,6 @@ void Player::Construct()
     SetOriginAtMiddle();
     collisionComponent->SetCollisionType(CollisionType::CT_BLOCK);
     M_INPUT.BindAction({ Code::Space,Code::Up }, bind(&Player::Jump, this));
-    SetOriginAtMiddle();
-    SetPosition(Vector2f(0.0f, 864.0f - 50.0f));
 }
 
 void Player::BeginPlay()
@@ -58,33 +63,14 @@ void Player::OnCollision(const Vector2f& _normal)
 void Player::Death()
 {
     movementComponent->SetCanMove(false);
+    canJump = false;
     Move(Vector2f(-2.0f, 0.0));
     M_AUDIO.PlaySample<SoundSample>("death", MP3);
 
-    //TODO Animation : Abandon mb
-
-    /*GetMesh()->GetShape()->InitRectangle(RectangleShapeData({ size, size }, "death", PNG));
-
-    const float _timeBetween = 0.01f;
-    const Vector2i& _spriteSize = Vector2i(166, 166);
-    const vector<SpriteData>& _spritesData =
-    {
-        { _timeBetween, Vector2i(0, 0),_spriteSize},
-        { _timeBetween, Vector2i(167, 0), _spriteSize},
-        { _timeBetween, Vector2i(333, 0), _spriteSize},
-        { _timeBetween, Vector2i(0, 167), _spriteSize},
-        { _timeBetween, Vector2i(167, 167), _spriteSize},
-        { _timeBetween, Vector2i(333, 167), _spriteSize },
-        { _timeBetween, Vector2i(0, 333), _spriteSize},
-        { _timeBetween, Vector2i(127, 333), _spriteSize},
-        { _timeBetween, Vector2i(333, 333),_spriteSize},
-
-    };
-    AnimationData _animationData = AnimationData(2.0f, _spritesData);
-
-    deathAnimation->AddAnimation(new Animation("Default", GetMesh()->GetShape(), _animationData));
-    deathAnimation->SetCurrentAnimation("Default");
-    deathAnimation->StartAnimation();*/
+    //M_TEXTURE.Load(GetMesh()->GetShape(), "death", { {0,0},{295,368} });
+    M_TEXTURE.Load(GetMesh()->GetShape(), "death", IntRect());
+    animation->SetCurrentAnimation("death");
+    animation->StartAnimation();
 
 }
 
@@ -94,5 +80,43 @@ void Player::Jump()
     canJump = false;
     Vector2f& _velocity = movementComponent->GetVelocity();
     _velocity.y -= JUMP_HIGH;
-    Rotate(degrees(90));
+    
+    if (rotationTimer) return;
+    SelfRotate(180);
+}
+
+void Player::SelfRotate(const int _degrees)
+{
+    const auto _normalizeDegrees = [](const float _degrees) -> int
+    {
+            return CAST(int, _degrees)%360;
+    };
+
+    targetRotation = _normalizeDegrees(GetRotation().asDegrees() + _degrees);
+
+    rotationTimer = new Timer<Seconds>([&]()
+    {
+        Rotate(degrees(1));
+        const int _currentRotation = _normalizeDegrees(GetRotation().asDegrees());
+        if (_currentRotation == targetRotation)
+        {
+            rotationTimer->Stop();
+            rotationTimer = nullptr;
+        }
+    }, seconds(0.0053f), true, true);
+}
+
+void Player::SetupAnimation()
+{
+    animation = CreateComponent<AnimationComponent>();
+
+    vector<SpriteData> _deathFrames;
+    for (int _i = 0; _i < 9; _i++)
+    {
+        _deathFrames.push_back(SpriteData(0.05f, {_i*295,0}, {295, 368}));
+    }
+
+    AnimationData _deathData = AnimationData(1.0f, _deathFrames, false, false, RD_ROW);
+    Animation* _deathAnimation = new Animation("death", GetMesh()->GetShape(), _deathData);
+    animation->AddAnimation(_deathAnimation);
 }

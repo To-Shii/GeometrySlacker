@@ -16,6 +16,14 @@ struct SpriteData
     float timeBetween;
     Vector2i start;
     Vector2i size;
+
+    SpriteData() = default;
+    SpriteData(const float _timeBetween, const Vector2i& _start, const Vector2i& _size)
+    {
+        timeBetween = _timeBetween;
+        start = _start;
+        size = _size;
+    }
 };
 
 struct LinkedAnimation
