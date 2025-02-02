@@ -13,6 +13,8 @@ class GeometryDash : public Game
 	vector<MeshActor*> collidable;
 	vector<MeshActor*> DeadlyObstacles;
 
+	Vector2f spikeSize;
+	Vector2f wallSize;
 public:
 	GeometryDash();
 

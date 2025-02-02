@@ -13,6 +13,9 @@ GeometryDash::GeometryDash() : Game()
 
     collidable = vector<MeshActor*>();
     DeadlyObstacles = vector<MeshActor*>();
+
+    spikeSize = Vector2f(50.0f, 50.0f);
+    wallSize = Vector2f(50.0f, 45.0f);
 }
 
 
@@ -140,9 +143,6 @@ void GeometryDash::GenerateMap()
 
     player = Level::SpawnActor(Player(50.0f, "character"));
 
-    const Vector2f& _wallSize = Vector2f(50.0f, 80.0f);
-    const Vector2f& _spickSize = Vector2f(50.0f, 50.0f);
-
     GenerateAllSpikes();
     GenerateAllWalls();
 
@@ -159,16 +159,22 @@ void GeometryDash::GenerateAllSpike(const float _floor)
     GenerateSpike(Vector2f(950.0f, _floor + 8.0f));
     GenerateSpike(Vector2f(1300.0f, _floor + 8.0f));
 
-    GenerateSpike(Vector2f(3350.0f, _floor - 410.0f));
-    GenerateSpike(Vector2f(3400.0f, _floor - 410.0f));
-    GenerateSpike(Vector2f(3450.0f, _floor - 410.0f));
+    GenerateSpike(Vector2f(3350.0f, _floor - 383.0f));
+    GenerateSpike(Vector2f(3400.0f, _floor - 383.0f));
+    GenerateSpike(Vector2f(3450.0f, _floor - 383.0f));
 }
 
 void GeometryDash::GenerateAllLowSpike(const float _floor)
 {
     GenerateLowSpike(Vector2f(900.0f, _floor + 8.0f));
-    GenerateLowSpike(Vector2f(3300.0f, _floor - 418.0f));
-    GenerateLowSpike(Vector2f(3500.0f, _floor - 418.0f));
+    GenerateLowSpike(Vector2f(3300.0f, _floor - 382.0f));
+    GenerateLowSpike(Vector2f(3500.0f, _floor - 382.0f));
+    float _x = 6845.0f;
+    for (u_int _index = 0; _index < 3; _index++)
+    {
+        GenerateLowSpike(Vector2f(_x, _floor - 68.0f));
+        _x += 400.0f;
+    }
 }
 
 void GeometryDash::GenerateAllLongSpike(const float _floor)
@@ -205,21 +211,20 @@ void GeometryDash::GenerateAllWall(const float _floor)
 
     for (u_int i = 0; i < 4; i++)
     {
-        GenerateWall(Vector2f(_x, _floor - 280.0f));
+        GenerateWall(Vector2f(_x, _floor - 278.0f));
         _x += 50.0f;
     }
 
     _x = 3200.0f;
-    for (u_int i = 0; i < 10; i++)
+    for (u_int i = 0; i < 9; i++)
     {
         GenerateWall(Vector2f(_x, _floor - 240.0f));
         _x += 50.0f;
     }
 
-    _x = 3700.0f;
     for (u_int i = 0; i < 4; i++)
     {
-        GenerateWall(Vector2f(_x, _floor - 280.0f));
+        GenerateWall(Vector2f(_x, _floor - 278.0f));
         _x += 50.0f;
     }
 
@@ -234,7 +239,6 @@ void GeometryDash::GenerateAllWall(const float _floor)
     for (u_int _index = 0; _index < 3; _index++)
     {
         GenerateWall(Vector2f(_x, _floor));
-        GenerateWall(Vector2f(_x, _floor - 174.0f));
         _x += 400.0f;
     }
 }
@@ -251,7 +255,7 @@ void GeometryDash::GenerateAllLowWall(const float _floor)
     }
 
     _x = 3300.0f;
-    _y = 400.0f;
+    _y = 365.0f;
     for (u_int i = 0; i < 5; i++)
     {
         GenerateLowWall(Vector2f(_x, _floor - _y));
@@ -277,7 +281,7 @@ void GeometryDash::GenerateAllLowWall(const float _floor)
     _x += 420.0f;
     for (u_int _index = 0; _index < 3; _index++)
     {
-        GenerateLowWall(Vector2f(_x, _floor - 80.0f));
+        GenerateLowWall(Vector2f(_x, _floor - 50.0f));
         _x += 400.0f;
     }
 }
