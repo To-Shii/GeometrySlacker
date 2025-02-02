@@ -146,9 +146,10 @@ void GeometryDash::GenerateMap()
     GenerateAllSpikes();
     GenerateAllWalls();
 
-    //MeshActor* _levelComplete = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(window.getSize().x /2, window.getSize().y / 2) * 2.0f, "levelComplete", PNG)));
-
+    MeshActor* _levelComplete = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(1200.0f, 300.0f), "levelComplete", PNG)));
+    _levelComplete->SetPosition(Vector2f(8200.0f, 400.0f));
     collidable.push_back(_floor);
+    collidable.push_back(_levelComplete);
 }
 
 
@@ -239,6 +240,7 @@ void GeometryDash::GenerateAllWall(const float _floor)
     for (u_int _index = 0; _index < 3; _index++)
     {
         GenerateWall(Vector2f(_x, _floor));
+        //GenerateWall(Vector2f(_x, _floor - 175.0f));
         _x += 400.0f;
     }
 }
