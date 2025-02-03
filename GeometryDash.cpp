@@ -28,6 +28,7 @@ void GeometryDash::Start()
 
     background = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(window.getSize().x, window.getSize().y), "Background", PNG, true)));
 
+
     const Vector2f& _floorSize = Vector2f(window.getSize().x, window.getSize().y * 0.2f);
     MeshActor* _floor = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
     const float _posX = 0.0f;
@@ -38,6 +39,7 @@ void GeometryDash::Start()
     player = Level::SpawnActor(Player(50.0f, "character"));
     player->SetOriginAtMiddle();
     player->SetPosition(Vector2f(window.getSize().x * 0.2f, window.getSize().y * 0.2f));
+    player->GetComponent<MovementComponent>()->IgnoreActor(background);
     M_CAMERA.GetCurrent()->SetTarget(player);
     M_CAMERA.GetCurrent()->Zoom(1.5f);
 

@@ -45,3 +45,4 @@ void ActorManager::BeginDestroy()
 		_actor->BeginDestroy();
 	}
 }
+

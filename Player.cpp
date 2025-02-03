@@ -24,6 +24,7 @@ Player::Player(const Player& _other) : MeshActor(_other)
     collisionComponent = CreateComponent<CollisionComponent>(_other.collisionComponent);
     targetRotation = _other.targetRotation;
     movementComponent = CreateComponent<MovementComponent>(_other.movementComponent);
+    targetRotation = 0;
     rotationTimer = nullptr;
 
     SetupAnimation();
@@ -47,6 +48,11 @@ void Player::BeginPlay()
 
 void Player::Tick(const float _deltaTime)
 {
+    if (!movementComponent->IsGrounded() && !rotationTimer)
+    {
+        SelfRotate(90);
+    }
+
     Super::Tick(_deltaTime);
 }
 
@@ -60,6 +66,7 @@ void Player::OnCollision(const Vector2f& _normal)
 
 void Player::Death()
 {
+    targetRotation = 0;
     movementComponent->SetCanMove(false);
     canJump = false;
     Move(Vector2f(-2.0f, 0.0));
@@ -79,7 +86,6 @@ void Player::Jump()
     Vector2f& _velocity = movementComponent->GetVelocity();
     _velocity.y -= JUMP_HIGH;
     
-    if (rotationTimer) return;
     SelfRotate(180);
 }
 
@@ -90,18 +96,22 @@ void Player::SelfRotate(const int _degrees)
             return CAST(int, _degrees)%360;
     };
 
-    targetRotation = _normalizeDegrees(GetRotation().asDegrees() + _degrees);
+    targetRotation += _degrees;
+    targetRotation = _normalizeDegrees(targetRotation);
+
+    if (rotationTimer) return;
 
     rotationTimer = new Timer<Seconds>([&]()
     {
         Rotate(degrees(1));
+        targetRotation--;
         const int _currentRotation = _normalizeDegrees(GetRotation().asDegrees());
-        if (_currentRotation == targetRotation)
+        if (targetRotation == 0)
         {
             rotationTimer->Stop();
             rotationTimer = nullptr;
         }
-    }, seconds(0.0053f), true, true);
+    }, seconds(0.005f), true, true);
 }
 
 void Player::SetupAnimation()
