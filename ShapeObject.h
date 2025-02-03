@@ -31,7 +31,6 @@ struct CircleShapeData
 		rect = _rect;
 		pointCount = _pointCount;
 	}
-
 	CircleShapeData& operator = (CircleShapeData _other)
 	{
 		radius = _other.radius;

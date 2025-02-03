@@ -10,9 +10,12 @@ class Player : public MeshActor
 	float size;
 	Vector2f position;
 
-	CollisionComponent* collisionComponent;
+	Timer<Seconds>* rotationTimer;
+	int targetRotation;
+
 	MovementComponent* movementComponent;
-	AnimationComponent* deathAnimation;
+	CollisionComponent* collisionComponent;
+	AnimationComponent* animation;
 
 	bool canJump;
 
@@ -27,7 +30,10 @@ public:
 	virtual void Tick(const float _deltaTime) override;
 	void OnCollision(const Vector2f& _normal);
 	void Death();
+	void SetupAnimation();
+
+
 private:
 	void Jump();
+	void SelfRotate(const int _degrees = 90);
 };
-

@@ -1,6 +1,12 @@
--Level (a la main ou voir avec Thomas)
--Animation mort (animationManger)
--Saut (inputManager)
--Ecran de Win (juste afficher "LevelCompleted") FAIT
--bouton start (widget ?)
--Asset Floor + afficher l'asset FAIT
+- Supprimer un acteur
+- Utilisation du temps
+- zOrder de rendu
+- Collision intersections
+- Collision par rapport à la souris
+
+- Calculs math pour le trou noir
+- GetComponent<>() de Actor
+- TextureManager => load texture déjà existante
+
+- Reserver le sound tant qu'il est pas terminé
+- AdjustAllVolums
