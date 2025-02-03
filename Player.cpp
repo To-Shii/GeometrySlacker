@@ -48,10 +48,7 @@ void Player::BeginPlay()
 
 void Player::Tick(const float _deltaTime)
 {
-    if (!movementComponent->IsGrounded() && !rotationTimer)
-    {
-        SelfRotate(90);
-    }
+    RotateInAir();
 
     Super::Tick(_deltaTime);
 }
@@ -112,6 +109,14 @@ void Player::SelfRotate(const int _degrees)
             rotationTimer = nullptr;
         }
     }, seconds(0.005f), true, true);
+}
+
+void Player::RotateInAir()
+{
+    if (!movementComponent->IsGrounded() && !rotationTimer)
+    {
+        SelfRotate(90);
+    }
 }
 
 void Player::SetupAnimation()
