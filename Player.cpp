@@ -15,6 +15,7 @@ Player::Player(const float _size, const string& _path) : MeshActor(RectangleShap
     canJump = true;
     targetRotation = 0;
     rotationTimer = nullptr;
+
     SetupAnimation();
 
 }
@@ -28,7 +29,6 @@ Player::Player(const Player& _other) : MeshActor(_other)
     rotationTimer = nullptr;
 
     SetupAnimation();
-
 }
 
 void Player::Construct()
@@ -82,7 +82,7 @@ void Player::Jump()
     _velocity.y -= JUMP_HIGH;
     
     if (rotationTimer) return;
-    SelfRotate(180);
+    SelfRotate(90);
 }
 
 void Player::SelfRotate(const int _degrees)
@@ -117,6 +117,6 @@ void Player::SetupAnimation()
     }
 
     AnimationData _deathData = AnimationData(1.0f, _deathFrames, false, false, RD_ROW);
-    Animation* _deathAnimation = new Animation("death", GetMesh()->GetShape(), _deathData);
-    animation->AddAnimation(_deathAnimation);
+    /*Animation* _deathAnimation = new Animation("death", GetMesh()->GetShape(), _deathData);
+    animation->AddAnimation(_deathAnimation);*/
 }
