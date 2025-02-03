@@ -142,10 +142,8 @@ xcopy /y /d "..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="ActorManager.cpp" />
-    <ClCompile Include="Bird.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
-    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="CameraActor.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CameraManager.cpp" />
@@ -155,11 +153,10 @@ xcopy /y /d "..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="CustomException.cpp" />
-    <ClCompile Include="Duck.cpp" />
-    <ClCompile Include="DuckHuntGame.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GeometryDash.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Label.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -170,6 +167,7 @@ xcopy /y /d "..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="MusicSample.cpp" />
     <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RectangleActor.cpp" />
     <ClCompile Include="RootComponent.cpp" />
     <ClCompile Include="Sample.cpp" />
@@ -186,10 +184,8 @@ xcopy /y /d "..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="ActorManager.h" />
-    <ClInclude Include="Bird.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationComponent.h" />
-    <ClInclude Include="Ball.h" />
     <ClInclude Include="CameraActor.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CameraManager.h" />
@@ -200,16 +196,16 @@ xcopy /y /d "..\SFML-3.0.0\bin\sfml-window-d-3.dll" "$(OutDir)"
     <ClInclude Include="Core.h" />
     <ClInclude Include="CoreMinimal.h" />
     <ClInclude Include="CustomException.h" />
-    <ClInclude Include="Duck.h" />
-    <ClInclude Include="DuckHuntGame.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GeometryDash.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MusicSample.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="SubclassOf.h" />

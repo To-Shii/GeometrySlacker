@@ -88,6 +88,10 @@ public:
 	{
 		return name;
 	}
+	FORCEINLINE void SetName(const string& _name) 
+	{
+		name = _name;
+	}
 	FORCEINLINE string GetDisplayName() const
 	{
 		return displayName;

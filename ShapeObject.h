@@ -31,7 +31,6 @@ struct CircleShapeData
 		rect = _rect;
 		pointCount = _pointCount;
 	}
-
 	CircleShapeData& operator = (CircleShapeData _other)
 	{
 		radius = _other.radius;
@@ -179,7 +178,7 @@ public:
 	ShapeObject(const ShapeObject& _other);
 	~ShapeObject();
 
-private:
+public:
 	void InitCircle(const CircleShapeData& _data);
 	void InitRectangle(const RectangleShapeData& _data);
 };

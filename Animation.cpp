@@ -20,7 +20,7 @@ Animation::Animation(const string& _name, ShapeObject* _shape, const AnimationDa
 	timer = new Timer([&]()
 		{
 			Update(); },
-		seconds(data.sprites[currentIndex].timeBetween * data.count / data.duration),
+		seconds(data.sprites[currentIndex].timeBetween),
 		false,
 		true
 	); //TODO change
@@ -36,7 +36,7 @@ Animation::Animation(const Animation& _other)
 	timer = new Timer([&]()
 		{ 
 			Update(); },
-		seconds(data.sprites[currentIndex].timeBetween * data.count / data.duration),
+		seconds(data.sprites[currentIndex].timeBetween),
 		false,
 		true
 	);
