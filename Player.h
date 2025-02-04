@@ -13,8 +13,8 @@ class Player : public MeshActor
 	Timer<Seconds>* rotationTimer;
 	int targetRotation;
 
-	MovementComponent* movementComponent;
 	CollisionComponent* collisionComponent;
+	MovementComponent* movementComponent;
 	AnimationComponent* animation;
 
 	bool canJump;
@@ -36,4 +36,5 @@ public:
 private:
 	void Jump();
 	void SelfRotate(const int _degrees = 90);
+	void RotateInAir();
 };

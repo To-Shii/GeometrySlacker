@@ -17,8 +17,6 @@ void CollisionComponent::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
-
-
 }
 
 void CollisionComponent::OnCollide(Vector2f& _velocity)

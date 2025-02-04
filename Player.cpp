@@ -47,6 +47,8 @@ void Player::BeginPlay()
 
 void Player::Tick(const float _deltaTime)
 {
+    RotateInAir();
+
     Super::Tick(_deltaTime);
 }
 
@@ -90,18 +92,29 @@ void Player::SelfRotate(const int _degrees)
             return CAST(int, _degrees)%360;
     };
 
-    targetRotation = _normalizeDegrees(GetRotation().asDegrees() + _degrees);
+    targetRotation += _degrees;
+    targetRotation = _normalizeDegrees(targetRotation);
+    if (rotationTimer) return;
 
     rotationTimer = new Timer<Seconds>([&]()
     {
         Rotate(degrees(1));
+        targetRotation--;
         const int _currentRotation = _normalizeDegrees(GetRotation().asDegrees());
-        if (_currentRotation == targetRotation)
+        if (targetRotation == 0)
         {
             rotationTimer->Stop();
             rotationTimer = nullptr;
         }
-    }, seconds(0.0053f), true, true);
+    }, seconds(0.005f), true, true);
+}
+
+void Player::RotateInAir()
+{
+    if (!movementComponent->IsGrounded() && !rotationTimer)
+    {
+        SelfRotate(90);
+    }
 }
 
 void Player::SetupAnimation()

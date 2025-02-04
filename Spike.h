@@ -23,4 +23,3 @@ public:
 	void SetCollision(const Vector2f& _position);
 
 };
-

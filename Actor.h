@@ -181,9 +181,9 @@ public:
 	{
 		for (Component* _component : components)
 		{
-			if (is_same_v<decltype(_component), T*>)
+			if (T* _comp = dynamic_cast<T*>(_component))
 			{
-				return dynamic_cast<T*>(_component);
+				return _comp;
 			}
 		}
 

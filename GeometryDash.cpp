@@ -12,52 +12,49 @@ GeometryDash::GeometryDash() : Game()
     player = nullptr;
 
     collidable = vector<MeshActor*>();
-    DeadlyObstacles = vector<MeshActor*>();
+    deadlyObstacles = vector<MeshActor*>();
 }
 
 GeometryDash::~GeometryDash()
 {
-    for (MeshActor* _mesh : DeadlyObstacles)
+    for (MeshActor* _mesh : deadlyObstacles)
     {
         delete _mesh;
     }
 }
 
-
 void GeometryDash::Start()
 {
     Super::Start();
     M_CAMERA.CreateCamera("MainCamera");
-    //Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(463.0f, 260.0f) * 2.0f, "background", JPG)));
 
-    music = M_AUDIO.PlaySample<MusicSample>("StereoMadness");
-    music->SetLoop(true);
-    music->SetVolume(10.0f);
-
-    background = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(window.getSize().x, window.getSize().y), "Background", PNG, true)));
-
-    const Vector2f& _floorSize = Vector2f(window.getSize().x, window.getSize().y * 0.2f);
-    MeshActor* _floor = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
-    const float _posX = 0.0f;
-    const float _posY = window.getSize().y * 0.8f;
-    _floor->SetPosition(Vector2f(_posX, _posY));
-    _floor->SetTextureRect(IntRect(Vector2i(), Vector2i(512 * 3, 512)));
+    background = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(window.getSize().x * 3, window.getSize().y), "Background", PNG, true)));
+    
+    
+    GenerateMusic();
+    GenerateMap();
 
     player = Level::SpawnActor(Player(50.0f, "character"));
     player->SetOriginAtMiddle();
-    player->SetPosition(Vector2f(window.getSize().x * 0.2f, window.getSize().y * 0.2f));
+    player->SetPosition(Vector2f(window.getSize().x * 0.3f, window.getSize().y * 0.5f));
+    player->GetComponent<MovementComponent>()->IgnoreActor(background);
+
+    /*MeshActor* _floor2 = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
+    _floor2->SetPosition(Vector2f(_posX + _floorSize.x, _posY));
+    _floor2->SetTextureRect(IntRect(Vector2i(), Vector2i(512 * 3, 512)));*/
+
     M_CAMERA.GetCurrent()->SetTarget(player);
-    M_CAMERA.GetCurrent()->Zoom(1.5f);
+    M_CAMERA.GetCurrent()->Zoom(1.0f);
+    M_CAMERA.GetCurrent()->SetScale(Vector2f(1920.0f, 1080.0f));
 
-
-    const Vector2f& _wallSize = Vector2f(50.0f, 80.0f);
+    /*const Vector2f& _wallSize = Vector2f(50.0f, 80.0f);
     MeshActor* _wall = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize, "Block")));
-    _wall->SetPosition(Vector2f(1000.0f, 790.0f));
+    _wall->SetPosition(Vector2f(1250.0f, 790.0f));
     MeshActor* _wall2 = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize, "Block")));
-    _wall2->SetPosition(Vector2f(1150.0f, 790.0f));
+    _wall2->SetPosition(Vector2f(1350.0f, 790.0f));
     MeshActor* _wall3 = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize, "Block")));
     _wall3->SetPosition(Vector2f(1350.0f, 720.0f));
-	
+    */
     Spike* _spike = Level::SpawnActor(Spike(RectangleShapeData(Vector2f(396.0f / 8 , 398.0f  / 7), "spike"), "Spike"));
     _spike->SetPosition(Vector2f(1800.0f, 820.0f));
     _spike->SetCollision(Vector2f(1800.0f, 820.0f));
@@ -78,19 +75,20 @@ void GeometryDash::Start()
 bool GeometryDash::Update()
 {
     Super::Update();
-    CollisionComponent* _collComp = player->GetComponent<CollisionComponent>();
 
+    CollisionComponent* _collComp = player->GetComponent<CollisionComponent>();
     _collComp->CheckCollision<Player*, MeshActor*>(player, collidable, CL_Top,
-        [&](){
-            
+        [&]() 
+        {
+
         },
-        [&]() { 
+        [&]() 
+        {
             player->Death();
             music->Stop();
             LOG(Display, "Mort !");
         });
-
-    _collComp->CheckCollision<Player*, MeshActor*>(player, DeadlyObstacles, CL_None,
+    _collComp->CheckCollision<Player*, MeshActor*>(player, deadlyObstacles, CL_None,
         [&]() {
             player->Death();
             music->Stop();

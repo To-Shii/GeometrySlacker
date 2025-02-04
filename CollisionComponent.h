@@ -26,7 +26,6 @@ enum CollisionLocation
 	CL_Bottom,
 	CL_Left,
 	CL_Right,
-
 	CL_None
 };
 
@@ -55,13 +54,11 @@ public:
 public:
 	void OnCollide(Vector2f& _velocity);
 
-
 	template <typename PlayerType, typename CollidableType>
 	void CheckCollision(PlayerType _player, const vector<CollidableType>& _collidables, const CollisionLocation& _where, function<void()> _IfCallback, function<void()> _ElseCallback = [&](){})
 	{
 		Shape* _playerShape = _player->GetMesh()->GetShape()->GetDrawable();
 		const FloatRect& _playerRect = _playerShape->getGlobalBounds();
-
 		const vector<function<bool(const FloatRect&)>> _locationCallback =
 		{
 			[&](const FloatRect& _objectRect) // Collision sol
@@ -91,23 +88,19 @@ public:
 			}
 		};
 
-
 		for (CollidableType _object : _collidables)
 		{
 			Shape* _objectShape = _object->GetMesh()->GetShape()->GetDrawable();
 			const FloatRect& _objectRect = _objectShape->getGlobalBounds();
-
 			if (const optional<FloatRect> _intersection = _playerRect.findIntersection(_objectRect))
 			{
 				const Vector2f& _normal = ComputeNormal(*_intersection);
 				_player->OnCollision(_normal);
-
 				if (_where == CL_None)
 				{
 					_IfCallback();
 					return;
 				}
-
 				if (_locationCallback[_where](_objectRect))
 				{
 					_IfCallback();

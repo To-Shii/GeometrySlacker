@@ -1,5 +1,4 @@
 #include "Spike.h"
-
 Spike::Spike(const RectangleShapeData& _data, const string& _name) : MeshActor(_data, _name)
 {
 	collision = new MeshActor(_data, _name);
@@ -7,7 +6,7 @@ Spike::Spike(const RectangleShapeData& _data, const string& _name) : MeshActor(_
 
 Spike::~Spike()
 {
-	
+
 }
 
 void Spike::BeginPlay()
