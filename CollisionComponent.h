@@ -57,30 +57,37 @@ public:
 
 
 	template <typename PlayerType, typename CollidableType>
-	void CheckCollision(PlayerType _player,const vector<CollidableType>& _collidables, const CollisionLocation& _where, function<void()> _IfCallback, function<void()> _ElseCallback)
+	void CheckCollision(PlayerType _player, const vector<CollidableType>& _collidables, const CollisionLocation& _where, function<void()> _IfCallback, function<void()> _ElseCallback = [&](){})
 	{
 		Shape* _playerShape = _player->GetMesh()->GetShape()->GetDrawable();
 		const FloatRect& _playerRect = _playerShape->getGlobalBounds();
 
 		const vector<function<bool(const FloatRect&)>> _locationCallback =
 		{
-			[&](const FloatRect& _objectRect) {
+			[&](const FloatRect& _objectRect) // Collision sol
+			{
 				float _playerBottom = _playerRect.position.y + _playerRect.size.y;
 				float _objectTop = _objectRect.position.y;
-
-				return _playerBottom <= _objectTop + 5.0f;
+				return _playerBottom >= _objectTop;
 			},
 
-			[&](const FloatRect& _objectRect) {
-				return true;
+			[&](const FloatRect& _objectRect) // Collision plafond
+			{
+				float _playerTop = _playerRect.position.y;
+				float _objectBottom = _objectRect.position.y + _objectRect.size.y;
+				return _playerTop <= _objectBottom;
 			},
-
-			[&](const FloatRect& _objectRect) {
-				return true;
+			[&](const FloatRect& _objectRect) // Collision gauche
+			{
+				float _playerLeft = _playerRect.position.x;
+				float _objectRight = _objectRect.position.x + _objectRect.size.x;
+				return _playerLeft <= _objectRight;
 			},
-
-			[&](const FloatRect& _objectRect) {
-				return true;
+			[&](const FloatRect& _objectRect) // Collision droite
+			{
+				float _playerRight = _playerRect.position.x + _playerRect.size.x;
+				float _objectLeft = _objectRect.position.x;
+				return _playerRight >= _objectLeft;
 			}
 		};
 
