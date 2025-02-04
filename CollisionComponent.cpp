@@ -17,11 +17,9 @@ void CollisionComponent::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
 
-
-
 }
 
-void CollisionComponent::OnCollide(const Vector2f& _normal, Vector2f& _velocity)
+void CollisionComponent::OnCollide(Vector2f& _velocity)
 {
 	if (type == CT_NONE) return;
 	if (type == CT_BLOCK)

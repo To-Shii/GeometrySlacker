@@ -64,6 +64,10 @@ public:
 		mesh->GetShape()->Scale(_factor);
 	}
 
+	FORCEINLINE FloatRect GetHitbox() const
+	{
+		return mesh->GetShape()->GetDrawable()->getGlobalBounds();
+	}
 	#pragma endregion
 
 public:

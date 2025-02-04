@@ -48,13 +48,24 @@ float EaseInQuart(const float _time)
 {
     return _time * _time * _time * _time;
 }
+
 Vector2f ComputeNormal(const FloatRect& _rect)
 {
     const Vector2f& _normal = Vector2f(-_rect.size.y, _rect.size.x);
     const float _norme = Length(_normal);
     return _normal / _norme;
 }
+
 float Length(const Vector2f& _vector)
 {
     return sqrtf(powf(_vector.x, 2.0f) + powf(_vector.y, 2.0f));
+}
+
+float Distance(const float _first, const float _second)
+{
+    return abs(_first - _second);
+}
+float Distance(const Vector2f& _first, const Vector2f& _second)
+{
+    return sqrtf(pow(_second.x - _first.x, 2.0f) + pow(_second.y - _first.y, 2.0f));
 }

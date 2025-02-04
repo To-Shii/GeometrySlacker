@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Kismet.h"
 
 class MovementComponent : public Component
 { 
@@ -11,6 +12,7 @@ class MovementComponent : public Component
 	float speed;
 	float gravity;
 
+	set<Actor*> ignoreList;
 
 public:
 	FORCEINLINE Vector2f& GetVelocity()
@@ -29,6 +31,10 @@ public:
 	{
 		canMove = _canMove;
 	}
+	FORCEINLINE void IgnoreActor(Actor* _actor)
+	{
+		ignoreList.insert(_actor);
+	}
 
 public:
 	MovementComponent(Actor* _owner);
@@ -39,4 +45,7 @@ protected:
 
 public:
 	void Move(const float _deltaTime);
+
+private:
+	void CheckIsGrounded();
 };
