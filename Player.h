@@ -38,4 +38,7 @@ private:
 	void SelfRotate(const int _degrees = 90);
 	void RotateInAir();
 	
+	virtual void CollisionEnter(const CollisionData& _data) override;
+	virtual void CollisionUpdate(const CollisionData& _data) override;
+	virtual void CollisionExit(const CollisionData& _data) override;
 };

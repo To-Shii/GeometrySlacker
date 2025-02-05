@@ -10,18 +10,21 @@ Player::Player(const float _size, const string& _path) : MeshActor(RectangleShap
     size = _size;
     startPosition = Vector2f();
     movementComponent = CreateComponent<MovementComponent>();
-    collisionComponent = CreateComponent<CollisionComponent>();
+    collisionComponent = CreateComponent<CollisionComponent>("Player", IS_ALL, CT_OVERLAP);
     canJump = false;
     targetRotation = 0;
     rotationTimer = nullptr;
     SetLayer(Layer::LayerType::PLAYER);
     SetupAnimation();
+
+    vector<pair<string, CollisionType>> _responsesPlayer = { {"Block", CT_BLOCK}, {"Spike", CT_BLOCK}, {"Floor", CT_BLOCK} };
+    collisionComponent->AddResponses(_responsesPlayer);
 }
 
 Player::Player(const Player& _other) : MeshActor(_other)
 {
     startPosition = _other.startPosition;
-    collisionComponent = CreateComponent<CollisionComponent>(_other.collisionComponent);
+    collisionComponent = CreateComponent<CollisionComponent>(*_other.collisionComponent);
     targetRotation = _other.targetRotation;
     movementComponent = CreateComponent<MovementComponent>(_other.movementComponent);
     rotationTimer = nullptr;
@@ -33,7 +36,6 @@ void Player::Construct()
 {
     Super::Construct();
 
-    collisionComponent->SetCollisionType(CollisionType::CT_BLOCK);
     M_INPUT.BindAction({ Code::Space,Code::Up }, bind(&Player::Jump, this));
     SetOriginAtMiddle();
     SetPosition(Vector2f(0.0f, 780.0f));
@@ -57,7 +59,6 @@ void Player::OnCollision(const Vector2f& _normal)
 {
     Move(-_normal * 0.1f);
 
-    collisionComponent->OnCollide(movementComponent->GetVelocity());
     canJump = true;
 }
 
@@ -117,6 +118,22 @@ void Player::RotateInAir()
     {
         SelfRotate(30);
     }
+}
+
+void Player::CollisionEnter(const CollisionData& _data)
+{
+    if (_data.response == CT_BLOCK)
+    {
+        //_data.other->GetLayer() == 
+    }
+}
+
+void Player::CollisionUpdate(const CollisionData& _data)
+{
+}
+
+void Player::CollisionExit(const CollisionData& _data)
+{
 }
 
 void Player::SetupAnimation()

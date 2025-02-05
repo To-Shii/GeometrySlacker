@@ -1,4 +1,3 @@
-
 #pragma once
 #include "Component.h"
 #include "MeshActor.h"
@@ -76,6 +75,8 @@ protected:
 private:
 	void CheckCollision();
 };
+
+
 //#pragma once
 //#include "Component.h"
 //#include "MeshComponent.h"

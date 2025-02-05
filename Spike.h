@@ -1,9 +1,12 @@
 #pragma once
 #include "MeshActor.h"
+#include "CollisionComponent.h"
 
 class Spike : public MeshActor
 {
 	MeshActor* collision;
+	CollisionComponent* collisionComponent;
+
 public:
 	FORCEINLINE MeshActor* GetSpikeCollision() const
 	{

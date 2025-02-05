@@ -4,6 +4,8 @@
 #include "AudioManager.h"
 #include "CameraManager.h"
 #include "MovementComponent.h"
+#include "Player.h"
+#include "Floor.h"
 
 GeometryDash::GeometryDash() : Game()
 {
@@ -51,29 +53,9 @@ bool GeometryDash::Update()
 {
     Super::Update();
 
-    CollisionComponent* _collComp = player->GetComponent<CollisionComponent>();
-    _collComp->CheckCollision<Player*, MeshActor*>(player, collidable, CL_Top,
-        [&]() 
-        {
+    /*CollisionComponent* _collComp = player->GetComponent<CollisionComponent>();
 
-        },
-        [&]() 
-        {
-            /*player->Death();
-            music->Stop();
-            LOG(Display, "Mort !");*/
-        });
-    _collComp->CheckCollision<Player*, MeshActor*>(player, deadlyObstacles, CL_None,
-        [&]() 
-        {
-            player->Death();
-            music->Stop();
-            LOG(Display, "Mort !");
-        },
-        [&]() 
-        {
-
-        });
+    _collComp->CheckCollision();*/
 
     return IsOver();
 }
@@ -115,11 +97,12 @@ void GeometryDash::GenerateMusic()
 void GeometryDash::GenerateMap()
 {
     const Vector2f& _floorSize = Vector2f(window.getSize().x * 2, window.getSize().y * 0.5f);
-    MeshActor* _floor = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
+    Floor* _floor = Level::SpawnActor(Floor(_floorSize, "Floor"));
     const float _posX = 0.0f;
     const float _posY = window.getSize().y * 0.8f;
     _floor->SetPosition(Vector2f(_posX, _posY));
     _floor->SetTextureRect(IntRect(Vector2i(), Vector2i(512 * 3, 512)));
+    _floor->AddComponent(new CollisionComponent(_floor, "Floor", IS_ALL, CT_BLOCK));
 
     GenerateAllSpikes();
     GenerateAllWalls();
