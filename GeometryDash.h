@@ -5,6 +5,12 @@
 #include "Player.h"
 #include "Spike.h"
 
+enum WidthLevel
+{
+	WL_MEDIUM,
+	WL_LONG,
+};
+
 class GeometryDash : public Game
 {
 	MeshActor* background;
@@ -29,7 +35,15 @@ private:
 #pragma region Generate
 	void GenerateMusic();
 	void GenerateMap();
-#pragma region Spikes
+
+	/*void GenerateAll();
+
+	void GenerateAllWalls();
+	void GerenerateAllSpike();*/
+
+	//void GenerateWall(const Vector2f& _wallSize, const Vector2f& _position, const WidthLevel& _widthLevel);
+	//void GenerateSpike(const Vector2f& _spikeSize, const Vector2f& _position,const WidthLevel& _widthLevel);
+	#pragma region Spikes
 	void GenerateAllSpikes();
 	void GenerateAllSpike(const float _floor);
 	void GenerateAllLowSpike(const float _floor);

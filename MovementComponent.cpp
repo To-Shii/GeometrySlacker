@@ -6,7 +6,7 @@ MovementComponent::MovementComponent(Actor* _owner) : Component(_owner)
 {
 	isGrounded = false;
 	canMove = true;
-	velocity = Vector2f(150.0f, 0.0f);
+	velocity = Vector2f(300.0f, 0.0f);
 	speed = 1.0f;
 	mass = 100.0f;
 	gravity = 9.81f;
@@ -24,7 +24,6 @@ MovementComponent::MovementComponent(Actor* _owner, const MovementComponent* _ot
 
 	IgnoreActor(owner);
 }
-
 
 void MovementComponent::Tick(const float _deltaTime)
 {
@@ -53,5 +52,5 @@ void MovementComponent::Move(const float _deltaTime)
 void MovementComponent::CheckIsGrounded()
 {
 	HitInfo _info;
-	isGrounded = Raycast(owner->GetPosition(), Vector2f(0, 1), 50.f, _info, ignoreList);
+	isGrounded = Raycast(owner->GetPosition(), Vector2f(0, 1), 50.0f, _info, ignoreList);
 }

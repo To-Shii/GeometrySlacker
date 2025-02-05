@@ -12,7 +12,7 @@ Game::Game()
 
 void Game::Start()
 {
-    window.create(VideoMode({ 1920, 1080 }), "Geometry Slack");
+    window.create(VideoMode({ 1905, 1080 }), "Geometry Slack");
 };
 
 bool Game::Update()

@@ -8,13 +8,13 @@
 Player::Player(const float _size, const string& _path) : MeshActor(RectangleShapeData({ _size,_size }, _path))
 {
     size = _size;
-    SetName("Player");
     startPosition = Vector2f();
     movementComponent = CreateComponent<MovementComponent>();
     collisionComponent = CreateComponent<CollisionComponent>();
-    canJump = true;
+    canJump = false;
     targetRotation = 0;
     rotationTimer = nullptr;
+    SetLayer(Layer::LayerType::PLAYER);
     SetupAnimation();
 }
 
@@ -33,9 +33,10 @@ void Player::Construct()
 {
     Super::Construct();
 
-    SetOriginAtMiddle();
     collisionComponent->SetCollisionType(CollisionType::CT_BLOCK);
     M_INPUT.BindAction({ Code::Space,Code::Up }, bind(&Player::Jump, this));
+    SetOriginAtMiddle();
+    SetPosition(Vector2f(0.0f, 780.0f));
 }
 
 void Player::BeginPlay()
@@ -82,6 +83,7 @@ void Player::Jump()
     _velocity.y -= JUMP_HIGH;
     
     if (rotationTimer) return;
+    
     SelfRotate(180);
 }
 
@@ -111,9 +113,9 @@ void Player::SelfRotate(const int _degrees)
 
 void Player::RotateInAir()
 {
-    if (!movementComponent->IsGrounded() && !rotationTimer)
+    if(!movementComponent->IsGrounded() && !rotationTimer)
     {
-        SelfRotate(90);
+        SelfRotate(30);
     }
 }
 

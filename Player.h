@@ -37,4 +37,5 @@ private:
 	void Jump();
 	void SelfRotate(const int _degrees = 90);
 	void RotateInAir();
+	
 };

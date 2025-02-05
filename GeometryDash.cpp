@@ -28,15 +28,14 @@ void GeometryDash::Start()
     Super::Start();
     M_CAMERA.CreateCamera("MainCamera");
 
-    background = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(window.getSize().x * 3, window.getSize().y), "Background", PNG, true)));
-    
+    background = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(1905.0f * 2, 1080.0f), "Background")));
     
     GenerateMusic();
     GenerateMap();
 
-    player = Level::SpawnActor(Player(50.0f, "character"));
-    player->SetOriginAtMiddle();
-    player->SetPosition(Vector2f(window.getSize().x * 0.3f, window.getSize().y * 0.5f));
+    player = Level::SpawnActor(Player(50.0f, "Marguerite"));
+    //player->SetOriginAtMiddle();
+    //player->SetPosition(Vector2f(window.getSize().x * 0.5f, window.getSize().y * 0.5f));
     player->GetComponent<MovementComponent>()->IgnoreActor(background);
 
     /*MeshActor* _floor2 = Level::SpawnActor(MeshActor(RectangleShapeData(_floorSize, "Floor", PNG, true)));
@@ -45,29 +44,7 @@ void GeometryDash::Start()
 
     M_CAMERA.GetCurrent()->SetTarget(player);
     M_CAMERA.GetCurrent()->Zoom(1.0f);
-    M_CAMERA.GetCurrent()->SetScale(Vector2f(1920.0f, 1080.0f));
-
-    /*const Vector2f& _wallSize = Vector2f(50.0f, 80.0f);
-    MeshActor* _wall = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize, "Block")));
-    _wall->SetPosition(Vector2f(1250.0f, 790.0f));
-    MeshActor* _wall2 = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize, "Block")));
-    _wall2->SetPosition(Vector2f(1350.0f, 790.0f));
-    MeshActor* _wall3 = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize, "Block")));
-    _wall3->SetPosition(Vector2f(1350.0f, 720.0f));*/
-    /*MeshActor* _spike = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(396.0f / 8 , 398.0f  / 7), "spike")));
-    _spike->SetPosition(Vector2f(1800.0f, 820.0f));*/
-    
-    //MeshActor* _levelComplete = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(window.getSize().x /2, window.getSize().y / 2) * 2.0f, "levelComplete", PNG)));
-
-    /*collidable.push_back(_floor);
-    collidable.push_back(_floor2);*/
-   /* collidable.push_back(_wall);
-    collidable.push_back(_wall2);
-    collidable.push_back(_wall3);*/
-    //DeadlyObstacles.push_back(_spike);
-    /*collidable.push_back(_wall2);
-    collidable.push_back(_wall3);*/
-
+    M_CAMERA.GetCurrent()->SetScale(Vector2f(1905.0f, 1080.0f));
 }
 
 bool GeometryDash::Update()
@@ -82,17 +59,19 @@ bool GeometryDash::Update()
         },
         [&]() 
         {
-            player->Death();
+            /*player->Death();
             music->Stop();
-            LOG(Display, "Mort !");
+            LOG(Display, "Mort !");*/
         });
     _collComp->CheckCollision<Player*, MeshActor*>(player, deadlyObstacles, CL_None,
-        [&]() {
+        [&]() 
+        {
             player->Death();
             music->Stop();
             LOG(Display, "Mort !");
         },
-        [&]() {
+        [&]() 
+        {
 
         });
 
@@ -142,15 +121,90 @@ void GeometryDash::GenerateMap()
     _floor->SetPosition(Vector2f(_posX, _posY));
     _floor->SetTextureRect(IntRect(Vector2i(), Vector2i(512 * 3, 512)));
 
-    GenerateAllWalls();
     GenerateAllSpikes();
+    GenerateAllWalls();
+
+    //player = Level::SpawnActor(Player(50.0f, "Marguerite"));
+
+    //GenerateAll();
 
     collidable.push_back(_floor);
-    MeshActor* _levelComplete = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(1200.0f, 300.0f), "levelComplete", PNG)));
-    _levelComplete->SetPosition(Vector2f(8200.0f, 400.0f));
+    MeshActor* _levelComplete = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(1020.0f, 881.0f), "levelComplete", PNG)));
+    _levelComplete->SetPosition(Vector2f(8200.0f, 200.0f));
     //collidable.push_back(_levelComplete);
 }
 
+//void GeometryDash::GenerateAll()
+//{
+//    GenerateAllWalls();
+//    GerenerateAllSpike();
+//}
+//
+//void GeometryDash::GenerateAllWalls()
+//{
+//    const Vector2f& _wallSize = Vector2f(50.0f, 50.0f);
+//    const float _wallPosY = 820.0f;
+//    const float _wallOnTopOfAnotherPosY = 770.0f; //720.0f
+//
+//    GenerateWall(_wallSize, Vector2f(1200.0f, _wallPosY), WL_MEDIUM);
+//    GenerateWall(_wallSize, Vector2f(1350.0f, _wallPosY), WL_MEDIUM);
+//    GenerateWall(_wallSize, Vector2f(1350.0f, _wallOnTopOfAnotherPosY), WL_MEDIUM);
+//    GenerateWall(_wallSize, Vector2f(1500.0f, _wallPosY), WL_LONG);
+//    GenerateWall(_wallSize, Vector2f(1550.0f, _wallPosY), WL_LONG);
+//    GenerateWall(_wallSize, Vector2f(1600.0f, _wallPosY), WL_LONG);
+//    GenerateWall(_wallSize, Vector2f(1650.0f, _wallPosY), WL_LONG);
+//    GenerateWall(_wallSize, Vector2f(1700.0f, _wallPosY), WL_LONG);
+//    GenerateWall(_wallSize, Vector2f(1750.0f, _wallPosY), WL_MEDIUM);
+//    GenerateWall(_wallSize, Vector2f(1900.0f, _wallPosY), WL_MEDIUM);
+//    GenerateWall(_wallSize, Vector2f(1900.0f, _wallOnTopOfAnotherPosY), WL_MEDIUM);
+//}
+//
+//void GeometryDash::GerenerateAllSpike()
+//{
+//    const Vector2f& _spikeSize = Vector2f(396.0f / 8, 398.0f / 7);
+//    const float _spikePosY = 810.0f;
+//
+//    GenerateSpike(_spikeSize, Vector2f(1150.0f, _spikePosY), WL_MEDIUM);
+//    GenerateSpike(_spikeSize, Vector2f(1450.0f, _spikePosY), WL_LONG);
+//    GenerateSpike(_spikeSize, Vector2f(1400.0f, _spikePosY), WL_LONG);
+//    GenerateSpike(_spikeSize, Vector2f(1430.0f, _spikePosY), WL_LONG);
+//}
+//
+//void GeometryDash::GenerateWall(const Vector2f& _wallSize, const Vector2f& _position, const WidthLevel& _widthLevel)
+//{
+//    if (_widthLevel == WL_MEDIUM)
+//    {
+//        MeshActor* _wall = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize, "Block")));
+//        _wall->SetPosition(_position);
+//
+//        collidable.push_back(_wall);
+//    }
+//    else if (_widthLevel == WL_LONG)
+//    {
+//        MeshActor* _rectangleWall = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f( 65.0f, 32.0f), "Rectangle")));
+//        _rectangleWall->SetPosition(_position);
+//
+//        collidable.push_back(_rectangleWall);
+//    }
+//}
+//
+//void GeometryDash::GenerateSpike(const Vector2f& _spikeSize, const Vector2f& _position,const WidthLevel& _widthLevel)
+//{
+//    if (_widthLevel == WL_MEDIUM)
+//    {
+//        Spike* _spike = Level::SpawnActor(Spike(RectangleShapeData(_spikeSize, "spike"), "Spike"));
+//        _spike->SetPosition(_position);
+//
+//        deadlyObstacles.push_back(_spike->GetSpikeCollision());
+//    }
+//    else if (_widthLevel == WL_LONG)
+//    {
+//        Spike* _lowSpike = Level::SpawnActor(Spike(RectangleShapeData(_spikeSize, "longSpike"), "Spike"));
+//        _lowSpike->SetPosition(_position);
+//
+//        deadlyObstacles.push_back(_lowSpike->GetSpikeCollision());
+//    }
+//}
 
 void GeometryDash::GenerateAllSpike(const float _floor)
 {
@@ -286,8 +340,6 @@ void GeometryDash::GenerateAllLowWall(const float _floor)
     }
 }
 
-
-
 #pragma region GeneratorSpike
 
 void GeometryDash::GenerateAllSpikes()
@@ -320,9 +372,9 @@ void GeometryDash::GenerateLongSpike(Vector2f _position)
 
 void GeometryDash::GenerateSpike(const Vector2f& _position, const Vector2f& _spickSize, const string& _name)
 {
-    Spike* _spike = Level::SpawnActor(Spike(RectangleShapeData(_spickSize, _name), "Spike"));
+    Spike* _spike = Level::SpawnActor(Spike(RectangleShapeData(_spickSize, _name, PNG), "spike"));
     _spike->SetPosition(_position);
-    deadlyObstacles.push_back(_spike->GetSpikeCollision());
+	deadlyObstacles.push_back(_spike->GetSpikeCollision());
 }
 
 #pragma endregion
