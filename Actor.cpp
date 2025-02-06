@@ -2,12 +2,12 @@
 #include "ActorManager.h"
 #include "TimerManager.h"
 
-Actor::Actor(const string& _name, const TransformData& _transform)
+Actor::Actor(const string& _name, const TransformData& _transform, const float _lifespan)
 {
 	name = _name;
 	displayName = "Unknown";
 	isToDelete = false;
-	lifeSpan = 0.0f;
+	lifeSpan = _lifespan;
 	root = CreateComponent<RootComponent>(_transform);
 }
 

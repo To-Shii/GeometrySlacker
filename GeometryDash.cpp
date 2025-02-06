@@ -28,7 +28,7 @@ GeometryDash::~GeometryDash()
 void GeometryDash::Start()
 {
     Super::Start();
-    M_CAMERA.CreateCamera("MainCamera");
+    M_CAMERA.CreateCamera();
 
     background = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(1905.0f * 2, 1080.0f), "Background")));
     

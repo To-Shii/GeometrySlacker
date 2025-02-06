@@ -265,7 +265,7 @@ public:
 #pragma endregion
 
 public:
-	Actor(const string& _name = "Actor", const TransformData& _transform = TransformData());
+	Actor(const string& _name = "Actor", const TransformData& _transform = TransformData(), const float _lifespan = 0.0f);
 	Actor(const Actor& _actor);
 	virtual ~Actor();
 

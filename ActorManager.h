@@ -2,10 +2,13 @@
 #include "Singleton.h"
 #include "Actor.h"
 
+class CollisionComponent;
+
 class ActorManager : public Singleton<ActorManager>
 {
 	set<Actor*> allActors;
 	multimap<string, Actor*> actorsID;
+	set<CollisionComponent*> AllcollisionComponents;
 
 public:
 	FORCEINLINE set<Actor*> GetAllActors() const
@@ -21,21 +24,26 @@ public:
 	FORCEINLINE void RemoveActor(Actor* _actor)
 	{
 		allActors.erase(_actor);
+
 		const string& _actorName = _actor->GetName();
 		using Iterator = multimap<string, Actor*>::iterator;
-		const pair<Iterator, Iterator>& _results = actorsID.equal_range(_actorName);
+		pair<Iterator, Iterator> _results = actorsID.equal_range(_actorName);
 
-		for (Iterator _it = _results.first; _it != _results.second; ++_it)
+		for (Iterator _it = _results.first; _it != _results.second; )
 		{
 			if (_it->second == _actor)
 			{
-				actorsID.erase(_it);
+				_it = actorsID.erase(_it);
+			}
+			else
+			{
+				++_it;
 			}
 		}
 
 		_actor->BeginDestroy();
 	}
-	// duck_1
+
 	FORCEINLINE string GetAvailableName(const string& _name, const int _index = 1)
 	{
 		// Je rajoute "_index" au nom actuel
@@ -54,9 +62,6 @@ public:
 				_isFindSameName = true;
 				break;
 			}
-
-
-
 		}
 		if (!_isFindSameName)
 		{
@@ -65,6 +70,21 @@ public:
 		}
 		// Je reteste avec l'index suivant
 		return GetAvailableName(_name, _index + 1);
+	}
+
+	FORCEINLINE void AddCollisionComponent(CollisionComponent* _component)
+	{
+		AllcollisionComponents.insert(_component);
+	}
+
+	FORCEINLINE void RemoveColiisionComponents(CollisionComponent* _component)
+	{
+		AllcollisionComponents.erase(_component);
+	}
+
+	FORCEINLINE set<CollisionComponent*> GetAllCollisionComponents() const
+	{
+		return AllcollisionComponents;
 	}
 
 public:
