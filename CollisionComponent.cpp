@@ -45,6 +45,7 @@ void CollisionComponent::CheckCollision()
 
 	for (CollisionComponent* _otherComponent : _allComponent)
 	{
+		if (this == _otherComponent) continue; 
 		const string& _otherName = _otherComponent->GetChannelName();
 		if (!responses.contains(_otherName)) continue;
 

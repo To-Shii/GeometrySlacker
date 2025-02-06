@@ -28,6 +28,7 @@ Player::Player(const Player& _other) : MeshActor(_other)
     targetRotation = _other.targetRotation;
     movementComponent = CreateComponent<MovementComponent>(_other.movementComponent);
     rotationTimer = nullptr;
+    SetLayer(_other.GetLayer());
 
     SetupAnimation();
 }
@@ -130,10 +131,12 @@ void Player::CollisionEnter(const CollisionData& _data)
 
 void Player::CollisionUpdate(const CollisionData& _data)
 {
+
 }
 
 void Player::CollisionExit(const CollisionData& _data)
 {
+
 }
 
 void Player::SetupAnimation()

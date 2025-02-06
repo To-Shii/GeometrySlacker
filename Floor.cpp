@@ -4,9 +4,9 @@
 Floor::Floor(const Vector2f& _size, const string& _path) : MeshActor(RectangleShapeData(_size, _path))
 {
     collisionComponent = CreateComponent<CollisionComponent>("Floor", IS_ALL, CT_OVERLAP);
-    SetLayer(Layer::LayerType::PLAYER);
+    SetLayer(Layer::LayerType::WORLD_STATIC);
 
-    vector<pair<string, CollisionType>> _responsesPlayer = { {"Block", CT_BLOCK}, {"Spike", CT_BLOCK}, {"Player", CT_BLOCK} };
+    vector<pair<string, CollisionType>> _responsesPlayer = { {"Block", CT_BLOCK}, {"Spike", CT_BLOCK}, {"Player", CT_OVERLAP} };
     collisionComponent->AddResponses(_responsesPlayer);
 }
 
