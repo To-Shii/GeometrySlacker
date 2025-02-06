@@ -82,6 +82,7 @@ void Player::Death()
 void Player::Jump()
 {
     if (!canJump) return;
+    Move(Vector2f(0.0f, -20.0f));
     canJump = false;
     movementComponent->SetIsGrounded(false);
     Vector2f& _velocity = movementComponent->GetVelocity();

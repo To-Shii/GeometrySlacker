@@ -6,6 +6,7 @@
 #include "MovementComponent.h"
 #include "Player.h"
 #include "Floor.h"
+#include "Wall.h"
 
 GeometryDash::GeometryDash() : Game()
 {
@@ -355,7 +356,6 @@ void GeometryDash::GenerateSpike(const Vector2f& _position, const Vector2f& _spi
 {
     Spike* _spike = Level::SpawnActor(Spike(RectangleShapeData(_spickSize, _name, PNG), "spike"));
     _spike->SetPosition(_position);
-	deadlyObstacles.push_back(_spike->GetSpikeCollision());
 }
 
 #pragma endregion
@@ -385,9 +385,8 @@ void GeometryDash::GenerateLowWall(Vector2f _position)
 
 void GeometryDash::GenerateWall(const Vector2f& _position, const Vector2f& _wallSize, const string& _name)
 {
-    MeshActor* _wall = Level::SpawnActor(MeshActor(RectangleShapeData(_wallSize, _name)));
+    Wall* _wall = Level::SpawnActor(Wall(_wallSize, _name));
     _wall->SetPosition(_position);
-    collidable.push_back(_wall);
 }
 
 #pragma endregion

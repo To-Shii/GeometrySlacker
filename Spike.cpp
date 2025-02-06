@@ -1,18 +1,19 @@
 #include "Spike.h"
+#include "Player.h"
+
 Spike::Spike(const RectangleShapeData& _data, const string& _name) : MeshActor(_data, _name)
 {
-	collision = new MeshActor(_data, _name);
-	collision->SetScale(Vector2f(0.33f, 0.33f));
-	collision->SetPosition(Vector2f(1500.0f + _data.size.x * 0.33f, 820.0f + _data.size.y * 0.33f));
-
 	collisionComponent = CreateComponent<CollisionComponent>("Spike", IS_ALL, CT_OVERLAP);
+    SetLayer(Layer::LayerType::WORLD_STATIC);
+
 	vector<pair<string, CollisionType>> _responsesPlayer = { {"Player", CT_BLOCK} };
 	collisionComponent->AddResponses(_responsesPlayer);
 }
 
-Spike::~Spike()
+Spike::Spike(const Spike& _other) : MeshActor(_other)
 {
-
+    collisionComponent = CreateComponent<CollisionComponent>(*_other.collisionComponent);
+    SetLayer(_other.GetLayer());
 }
 
 void Spike::BeginPlay()
@@ -23,4 +24,29 @@ void Spike::BeginPlay()
 void Spike::Tick(const float _deltaTime)
 {
 	Super::Tick(_deltaTime);
+}
+
+void Spike::CollisionEnter(const CollisionData& _data)
+{
+    if (_data.response == CT_OVERLAP)
+    {
+        if (_data.other->GetLayer() == Layer::LayerType::PLAYER)
+        {
+            Player* _player = Cast<Player>(_data.other);
+            if (_player)
+            {
+                _player->SetToDelete();
+            }
+        }
+    }
+}
+
+void Spike::CollisionUpdate(const CollisionData& _data)
+{
+
+}
+
+void Spike::CollisionExit(const CollisionData& _data)
+{
+
 }
