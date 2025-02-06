@@ -32,8 +32,8 @@ void GeometryDash::Start()
 
     background = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(1905.0f * 2, 1080.0f), "Background")));
     
-    GenerateMusic();
     GenerateMap();
+    GenerateMusic();
 
     player = Level::SpawnActor(Player(50.0f, "Marguerite"));
     //player->SetOriginAtMiddle();
@@ -111,10 +111,8 @@ void GeometryDash::GenerateMap()
 
     //GenerateAll();
 
-    collidable.push_back(_floor);
     MeshActor* _levelComplete = Level::SpawnActor(MeshActor(RectangleShapeData(Vector2f(1020.0f, 881.0f), "levelComplete", PNG)));
     _levelComplete->SetPosition(Vector2f(8200.0f, 200.0f));
-    //collidable.push_back(_levelComplete);
 }
 
 //void GeometryDash::GenerateAll()

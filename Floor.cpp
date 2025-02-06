@@ -25,8 +25,7 @@ void Floor::CollisionEnter(const CollisionData& _data)
             Player* _player = Cast<Player>(_data.other);
             if (_player)
             {
-                _player->GetComponent<MovementComponent>()->SetIsGrounded();
-                _player->GetComponent<MovementComponent>()->SetCanMove(false);
+                _player->SetCanJump(true);
             }
         }
     }

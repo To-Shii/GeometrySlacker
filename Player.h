@@ -20,6 +20,13 @@ class Player : public MeshActor
 	bool canJump;
 
 public:
+	void SetCanJump(const bool _canJump)
+	{
+		canJump = _canJump;
+	}
+
+
+public:
 	Player(const float _size, const string& _path = "");
 	Player(const Player& _other);
 

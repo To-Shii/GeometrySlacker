@@ -2,6 +2,7 @@
 #include "TimerManager.h"
 #include "InputManager.h"
 #include "AudioManager.h"
+#include "Floor.h"
 
 #define JUMP_HIGH 500
 
@@ -16,6 +17,7 @@ Player::Player(const float _size, const string& _path) : MeshActor(RectangleShap
     rotationTimer = nullptr;
     SetLayer(Layer::LayerType::PLAYER);
     SetupAnimation();
+    movementComponent->SetIsGrounded();
 
     vector<pair<string, CollisionType>> _responsesPlayer = { {"Block", CT_BLOCK}, {"Spike", CT_BLOCK}, {"Floor", CT_BLOCK} };
     collisionComponent->AddResponses(_responsesPlayer);
@@ -39,7 +41,7 @@ void Player::Construct()
 
     M_INPUT.BindAction({ Code::Space,Code::Up }, bind(&Player::Jump, this));
     SetOriginAtMiddle();
-    SetPosition(Vector2f(0.0f, 780.0f));
+    SetPosition(Vector2f(0.0f, 840.0f));
 }
 
 void Player::BeginPlay()
@@ -81,6 +83,7 @@ void Player::Jump()
 {
     if (!canJump) return;
     canJump = false;
+    movementComponent->SetIsGrounded(false);
     Vector2f& _velocity = movementComponent->GetVelocity();
     _velocity.y -= JUMP_HIGH;
     
@@ -123,9 +126,16 @@ void Player::RotateInAir()
 
 void Player::CollisionEnter(const CollisionData& _data)
 {
-    if (_data.response == CT_BLOCK)
+    if (_data.response == CT_OVERLAP)
     {
-        //_data.other->GetLayer() == 
+        if (_data.other->GetLayer() == Layer::LayerType::WORLD_STATIC)
+        {
+            Floor* _floor = Cast<Floor>(_data.other);
+            if (_floor)
+            {
+                SetCanJump(true);
+            }
+        }
     }
 }
 

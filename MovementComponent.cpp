@@ -32,15 +32,18 @@ void MovementComponent::Tick(const float _deltaTime)
 	if (!canMove) return;
 
 	// Appliquer la gravité
-	//if (!isGrounded)
-	//{
+	if (!isGrounded)
+	{
 		velocity.y += gravity * mass * _deltaTime;
-	//}
+	}
+	else
+	{
+		velocity.y = 0;
+	}
 
 	// Mettre à jour la position
 	Move(_deltaTime);
 }
-
 
 void MovementComponent::Move(const float _deltaTime)
 {
@@ -52,5 +55,5 @@ void MovementComponent::Move(const float _deltaTime)
 void MovementComponent::CheckIsGrounded()
 {
 	HitInfo _info;
-	isGrounded = Raycast(owner->GetPosition(), Vector2f(0, 1), 50.0f, _info, ignoreList);
+	isGrounded = Raycast(owner->GetPosition(), Vector2f(0, 1), 29.0f, _info, ignoreList, 1.0f);
 }
