@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "AudioManager.h"
 #include "Floor.h"
+#include "Wall.h"
 
 #define JUMP_HIGH 500
 
@@ -133,6 +134,11 @@ void Player::CollisionEnter(const CollisionData& _data)
         {
             Floor* _floor = Cast<Floor>(_data.other);
             if (_floor)
+            {
+                SetCanJump(true);
+            }
+            Wall* _wall = Cast<Wall>(_data.other);
+            if (_wall)
             {
                 SetCanJump(true);
             }
