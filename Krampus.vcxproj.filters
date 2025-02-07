@@ -252,6 +252,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>GeometryDash\Player</Filter>
     </ClCompile>
+    <ClCompile Include="DeathAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>GeometryDash\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathAnimation.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,19 +2,23 @@
 #include "TimerManager.h"
 #include "InputManager.h"
 #include "AudioManager.h"
+#include "Level.h"
 
 #define JUMP_HIGH 500
 
 Player::Player(const float _size, const string& _path) : MeshActor(RectangleShapeData({ _size, _size }, _path))
 {
     size = _size;
-    SetName("Player");
     startPosition = Vector2f();
     movementComponent = CreateComponent<MovementComponent>();
     collisionComponent = CreateComponent<CollisionComponent>();
-    deathAnimation = CreateComponent<AnimationComponent>();
+    canJump = false;
+    targetRotation = 0;
+    rotationTimer = nullptr;
+    SetName("Player");
 
     canJump = true;
+    animation = new DeathAnimation(RectangleShapeData({ 50.0f,50.0f }));
 }
 
 Player::Player(const Player& _other) : MeshActor(_other)
@@ -22,6 +26,9 @@ Player::Player(const Player& _other) : MeshActor(_other)
     startPosition = _other.startPosition;
     collisionComponent = CreateComponent<CollisionComponent>(_other.collisionComponent);
     movementComponent = CreateComponent<MovementComponent>(_other.movementComponent);
+    targetRotation = _other.targetRotation;
+    rotationTimer = nullptr;
+    animation = new DeathAnimation(RectangleShapeData({ 50.0f,50.0f }));
 }
 
 void Player::Construct()
@@ -61,31 +68,9 @@ void Player::Death()
     Move(Vector2f(-2.0f, 0.0));
     M_AUDIO.PlaySample<SoundSample>("death", MP3);
 
-    //TODO Animation : Abandon mb
+    GetMesh()->GetShape()->InitRectangle(RectangleShapeData({ size, size }, "death", PNG));
 
-    /*GetMesh()->GetShape()->InitRectangle(RectangleShapeData({ size, size }, "death", PNG));
-
-    const float _timeBetween = 0.01f;
-    const Vector2i& _spriteSize = Vector2i(166, 166);
-    const vector<SpriteData>& _spritesData =
-    {
-        { _timeBetween, Vector2i(0, 0),_spriteSize},
-        { _timeBetween, Vector2i(167, 0), _spriteSize},
-        { _timeBetween, Vector2i(333, 0), _spriteSize},
-        { _timeBetween, Vector2i(0, 167), _spriteSize},
-        { _timeBetween, Vector2i(167, 167), _spriteSize},
-        { _timeBetween, Vector2i(333, 167), _spriteSize },
-        { _timeBetween, Vector2i(0, 333), _spriteSize},
-        { _timeBetween, Vector2i(127, 333), _spriteSize},
-        { _timeBetween, Vector2i(333, 333),_spriteSize},
-
-    };
-    AnimationData _animationData = AnimationData(2.0f, _spritesData);
-
-    deathAnimation->AddAnimation(new Animation("Default", GetMesh()->GetShape(), _animationData));
-    deathAnimation->SetCurrentAnimation("Default");
-    deathAnimation->StartAnimation();*/
-
+    animation->GetComponent<AnimationComponent>()->StartAnimation();
 }
 
 void Player::Jump()
@@ -94,5 +79,37 @@ void Player::Jump()
     canJump = false;
     Vector2f& _velocity = movementComponent->GetVelocity();
     _velocity.y -= JUMP_HIGH;
-    Rotate(degrees(90));
+    SelfRotate(270.0f);
+}
+
+void Player::SelfRotate(const int _degrees)
+{
+    const auto _normalizeDegrees = [](const float _degrees) -> int
+        {
+            return CAST(int, _degrees) % 360;
+        };
+
+    targetRotation += _degrees;
+    targetRotation = _normalizeDegrees(targetRotation);
+    if (rotationTimer) return;
+
+    rotationTimer = new Timer<Seconds>([&]()
+        {
+            Rotate(degrees(1));
+            targetRotation--;
+            const int _currentRotation = _normalizeDegrees(GetRotation().asDegrees());
+            if (targetRotation == 0)
+            {
+                rotationTimer->Stop();
+                rotationTimer = nullptr;
+            }
+        }, seconds(0.0005f), true, true);
+}
+
+void Player::RotateInAir()
+{
+    if (!movementComponent->IsGrounded() && !rotationTimer)
+    {
+        SelfRotate(30);
+    }
 }

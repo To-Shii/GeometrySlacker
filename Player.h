@@ -3,6 +3,7 @@
 #include "CollisionComponent.h"
 #include "MovementComponent.h"
 #include "AnimationComponent.h"
+#include "DeathAnimation.h"
 
 class Player : public MeshActor
 {
@@ -10,10 +11,12 @@ class Player : public MeshActor
 	float size;
 	Vector2f position;
 
+	Timer<Seconds>* rotationTimer;
+	int targetRotation;
 
 	CollisionComponent* collisionComponent;
 	MovementComponent* movementComponent;
-	AnimationComponent* deathAnimation;
+	DeathAnimation* animation;
 
 	bool canJump;
 
@@ -30,4 +33,6 @@ public:
 	void Death();
 private:
 	void Jump();
+	void SelfRotate(const int _degrees);
+	void RotateInAir();
 };
